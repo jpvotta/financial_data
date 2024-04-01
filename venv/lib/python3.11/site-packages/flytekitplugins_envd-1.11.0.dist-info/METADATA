@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: flytekitplugins-envd
+Version: 1.11.0
+Summary: This package enables users to easily build a Docker image for tasks or workflows.
+Author: flyteorg
+Author-email: admin@flyte.org
+License: apache2
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: flytekit
+Requires-Dist: envd
+
