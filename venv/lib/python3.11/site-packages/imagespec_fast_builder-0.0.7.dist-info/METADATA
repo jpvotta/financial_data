@@ -1,0 +1,58 @@
+Metadata-Version: 2.3
+Name: imagespec-fast-builder
+Version: 0.0.7
+Summary: A faster ImageSpec builder for flytekit
+Project-URL: Issues, https://github.com/thomasjpfan/imagespec-fast-builder/issues
+Project-URL: Source, https://github.com/thomasjpfan/imagespec-fast-builder
+Author-email: "Thomas J. Fan" <thomasjpfan@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
+Requires-Dist: flytekit>=1.11.0
+Description-Content-Type: text/markdown
+
+# imagespec-fast-builder
+
+[![PyPI - Version](https://img.shields.io/pypi/v/imagespec-fast-builder.svg)](https://pypi.org/project/imagespec-fast-builder)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/imagespec-fast-builder.svg)](https://pypi.org/project/imagespec-fast-builder)
+
+-----
+
+`imagespec-fast-builder` is alternative backend for `flytekit`'s `ImageSpec` with the following improvements:
+
+- Smaller images by using multi-stage builds, a smaller base image, and `conda-pack`
+- Uses `uv` for installing from `PyPI`
+- No additional Python dependencies
+
+## Installation
+
+```console
+pip install imagespec-fast-builder
+```
+
+## How to use
+
+After installing, set `ImageSpec`'s builder to `fast-builder`:
+
+```python
+from flytekit import ImageSpec
+
+image = ImageSpec(
+    builder="fast-builder",
+    packages=["numpy"],
+    registry="localhost:30000",  # Any registry
+)
+```
+
+## License
+
+`imagespec-fast-builder` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

@@ -7,28 +7,31 @@ import pandas as pd
 STOCK_LIST_URL = 'https://www3.hkexnews.hk/sdw/search/ccass_stock_list.htm?sortby=stockcode&shareholdingdate='
 
 scraper_image_spec = ImageSpec(
+    builder="fast-builder",
     name="financial-data-scraper",
     requirements="requirements.txt",
     registry=os.environ.get("DOCKER_REGISTRY", None),
 ).with_commands([
-    "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
-    "dpkg -i google-chrome-stable_current_amd64.deb"
+    "apt-get update",
+    "apt-get install -y wget",
+    "wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+    "apt-get install -y ./google-chrome-stable_current_amd64.deb",
 ])
-
 
 @task(container_image=scraper_image_spec)
 def scrape_list_of_securities(d: datetime.date) -> pd.DataFrame:
 
-    import selenium
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.common.by import By
-        
-    url = STOCK_LIST_URL + d.strftime('%Y%m%d')
-    
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    from webdriver_manager.chrome import ChromeDriverManager
+
     options = Options()
     options.add_argument("--headless=new")
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+
+    url = STOCK_LIST_URL + d.strftime('%Y%m%d')
 
     driver.get(url)
     time.sleep(2)
@@ -52,9 +55,11 @@ def scrape_list_of_securities(d: datetime.date) -> pd.DataFrame:
     out_df = pd.DataFrame(out_dict)
     print("successfully scraped {} securities".format(out_df.shape[0]))
 
-    # need to save the dataframe somewhere (s3)
-
     return out_df
+
+    # return pd.DataFrame({"a": [1], "b": [2]})
+
+
 
 @workflow
 def scraper() -> pd.DataFrame:
